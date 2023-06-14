@@ -1,0 +1,86 @@
+<div>
+  <div>
+    <h1>
+      Prompt #<%= @the_prompt.id %> details
+    </h1>
+
+    <div>
+      <div>
+        <a href="/prompts">
+          Go back
+        </a>
+      </div>
+
+      <div>
+        <a href="/delete_prompt/<%= @the_prompt.id %>">
+          Delete prompt
+        </a>
+      </div>
+    </div>
+
+    <dl>
+      <dt>
+        Desc
+      </dt>
+      <dd>
+        <%= @the_prompt.desc %>
+      </dd>
+
+      <dt>
+        User
+      </dt>
+      <dd>
+        <%= @the_prompt.user_id %>
+      </dd>
+
+      <dt>
+        Created at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_prompt.created_at) %> ago
+      </dd>
+
+      <dt>
+        Updated at
+      </dt>
+      <dd>
+        <%= time_ago_in_words(@the_prompt.updated_at) %> ago
+      </dd>
+    </dl>
+  </div>
+</div>
+
+<hr>
+
+
+<div>
+  <div>
+    <h2>
+      Edit prompt
+    </h2>
+
+    <form action="/modify_prompt/<%= @the_prompt.id %>"  method="post" >
+      <div>
+        <label for="desc_box">
+          Desc
+        </label>
+
+        <textarea id="desc_box" name="query_desc"><%= @the_prompt.desc %></textarea>
+      </div>
+
+      <div>
+        <label for="user_id_box">
+          User
+        </label>
+
+        <input type="text" id="user_id_box" name="query_user_id" value="<%= @the_prompt.user_id %>">
+      </div>
+
+      <button>
+        Update prompt
+      </button>
+    </form>
+  </div>
+</div>
+
+<hr>

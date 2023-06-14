@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Base Rails</title>
+    <title> Chat GPT Automator </title>
     <%= csrf_meta_tags %>
 
     <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
@@ -13,9 +13,113 @@
 
     <%= stylesheet_link_tag 'application', media: 'all' %>
 
+    <link rel="stylesheet"href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Connect Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/js/all.min.js"></script>
+
+    <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+     <script>
+      function confirmDelete() {
+        var confirmation = confirm('Are you sure you want to delete this item?');
+        if (confirmation) {
+          // Proceed with the deletion action
+          return true;
+        } else {
+          // Cancel the deletion action and redirect to a specific URL
+           event.preventDefault();
+          event.stopPropagation();
+          return false;
+        }
+      }
+      </script>
+
+      <style>
+
+      .banner{
+        display: flex;
+        padding-left: 100px;
+        padding-right: 0px;       
+      }    
+
+      .right{
+        margin-left: auto;
+      }
+
+      .parent-button{
+        
+      }
+
+      .cancel-button{
+        
+      }
+    </style>
+
+
   </head>
 
   <body>
+
+    <nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/"> <i class="bi bi-rocket-fill"></i> Chat GPT Automator </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+      <div class="navbar-nav">        
+        <% if @current_user == nil %>
+            <div>Welcome!</div>
+        <% else %>
+          <a class="nav-link" href="/prompts"> <i class="bi bi-list-check"></i> Prompts </a>
+          <a class="nav-link" href="/prompts"> <i class="bi bi-person-fill-check"></i> My prompts</a>
+          <a class="nav-link" href="/sentences"> <i class="bi bi-balloon"></i> Sentences </a>
+          <a class="nav-link" href="/questions"> <i class="bi bi-balloon"></i> Questions </a>
+          <a class="nav-link" href="/sentences"> <i class="bi bi-balloon"></i> Likes </a>
+
+          <% if @current_user.email == "rafa@automator.com" %>
+            <a class="nav-link" href="/admin"> <i class="bi bi-wrench-adjustable-circle-fill"></i> Admin settings</a>
+          <% else %>
+          <% end %>
+        <% end %>
+      </div>
+
+      <div class="navbar-nav right">
+        <% if @current_user == nil %>        
+          <a class="nav-link" href="/user_sign_in"> <i class="bi bi-fingerprint"></i> Log in</a>
+          <a class="nav-link" href="/user_sign_up">Create account</a>
+
+        <% else %>
+          <a class="nav-link" href="/edit_user_profile"> <i class="bi bi-emoji-sunglasses-fill"></i> Hi, <%= @current_user.first_name %> </a>
+          <a class="nav-link" href="/user_sign_out">Log out</a>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</nav>
+
+  <div class = "container py-5">
+
     <%= yield %>
+
+    <br>
+
+    <div class=" fw-light text-center">
+      Developed by Rafael Montes at Chicago Booth. All rights reserved. Suggestions: <a href=mailto:rmontes@chicagobooth.edu>rmontes@chicagobooth.edu</a>
+    </div>
+
+  </div>
+
+
+
+
   </body>
 </html>
