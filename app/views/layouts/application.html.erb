@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> Chat GPT Automator </title>
+    <title> Promt Generator </title>
     <%= csrf_meta_tags %>
 
     <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
@@ -67,7 +67,7 @@
 
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/"> <i class="bi bi-rocket-fill"></i> Chat GPT Automator </a>
+        <a class="navbar-brand" href="/"> <i class="bi bi-rocket-fill"></i> Prompt Generator </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -119,6 +119,39 @@
   </div>
 
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyButtons = document.querySelectorAll('.copy-button');
+      copyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const code = button.getAttribute('data-code');
+
+          // Create a temporary textarea element to hold the text
+          const textarea = document.createElement('textarea');
+          textarea.value = code;
+          document.body.appendChild(textarea);
+
+          // Copy the text from the textarea
+          textarea.select();
+          document.execCommand('copy');
+
+          // Clean up by removing the temporary textarea
+          document.body.removeChild(textarea);
+
+          // Optionally provide some visual feedback to indicate successful copying
+          button.innerHTML = '<i class="bi bi-clipboard-check-fill"></i> Copied';
+          setTimeout(() => {
+            button.innerHTML = '<i class="bi bi-clipboard-check"></i> Copy and open ChatGPT';
+          }, 2000);
+
+          // Open a new tab with the desired URL
+          const chatGPTUrl = 'https://www.bing.com/search?form=MY02AA&OCID=MY02AA&pl=launch&q=Bing+AI&showconv=1&sydconv=1'; // Replace with the actual URL
+          window.open(chatGPTUrl, '_blank');
+
+        });
+      });
+    });
+  </script>
 
 
   </body>

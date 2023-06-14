@@ -1,0 +1,30 @@
+
+<% @the_prompt.questions.each do |a_question| %>
+
+  <div class="card mb-4">
+    <div class="card-header">
+
+<div class="row">
+      <div class="col-md-9">
+        <%= a_question.feed %>
+        <br>
+        <small class="text-muted"> Asked <%= time_ago_in_words(a_question.created_at)%> ago </small>
+      </div>
+
+      <div class="col text-end m-2">
+        <button class="btn btn-outline-primary btn-sm copy-button" data-code="<%= a_question.feed %>"> <i class="bi bi-clipboard-check"></i> Copy and open ChatGPT </button>
+        <a href="/delete_question/<%= a_question.id %>" title="Delete question" class="btn btn-outline-danger btn-sm"> <i class="bi bi-x-lg"></i> </a>
+      </div>
+</div>
+
+
+
+    </div>
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">An item</li>
+    </ul>
+
+  </div>
+
+<% end %>

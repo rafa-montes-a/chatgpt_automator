@@ -7,6 +7,11 @@ class PromptsController < ApplicationController
     render({ :template => "prompts/index.html.erb" })
   end
 
+  def new
+
+    render({ :template => "prompts/new.html.erb" })
+  end
+
   def show
     the_id = params.fetch("path_id")
 
@@ -17,16 +22,26 @@ class PromptsController < ApplicationController
     render({ :template => "prompts/show.html.erb" })
   end
 
+  def chat
+    the_id = params.fetch("path_id")
+
+    matching_prompts = Prompt.where({ :id => the_id })
+
+    @the_prompt = matching_prompts.at(0)
+
+    render({ :template => "prompts/chat.html.erb" })
+  end
+
   def create
     the_prompt = Prompt.new
     the_prompt.desc = params.fetch("query_desc")
-    the_prompt.user_id = params.fetch("query_user_id")
+    the_prompt.user_id = @current_user.id
 
     if the_prompt.valid?
       the_prompt.save
-      redirect_to("/prompts", { :notice => "Prompt created successfully." })
+      redirect_to("/prompts/#{the_prompt.id}", { :notice => "Prompt created successfully." })
     else
-      redirect_to("/prompts", { :alert => the_prompt.errors.full_messages.to_sentence })
+      redirect_to("/prompts/new", { :alert => the_prompt.errors.full_messages.to_sentence })
     end
   end
 
@@ -35,7 +50,6 @@ class PromptsController < ApplicationController
     the_prompt = Prompt.where({ :id => the_id }).at(0)
 
     the_prompt.desc = params.fetch("query_desc")
-    the_prompt.user_id = params.fetch("query_user_id")
 
     if the_prompt.valid?
       the_prompt.save

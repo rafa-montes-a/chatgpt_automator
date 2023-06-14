@@ -19,15 +19,23 @@ class QuestionsController < ApplicationController
 
   def create
     the_question = Question.new
-    the_question.user_id = params.fetch("query_user_id")
+    the_question.user_id = @current_user.id
     the_question.prompt_id = params.fetch("query_prompt_id")
-    the_question.answer = params.fetch("query_answer")
+    the_prompt = Prompt.where({ :id => the_question.prompt_id }).at(0)
+
+    the_question.feed =  ""
+
+    the_prompt.sentences.each do |a_sentence|
+    
+      the_question.feed = the_question.feed + params.fetch("query_sentence#{a_sentence.id}")
+
+    end
 
     if the_question.valid?
       the_question.save
-      redirect_to("/questions", { :notice => "Question created successfully." })
+      redirect_to("/prompts/chat/#{the_prompt.id}", { :notice => "Question created successfully." })
     else
-      redirect_to("/questions", { :alert => the_question.errors.full_messages.to_sentence })
+      redirect_to("#", { :alert => the_question.errors.full_messages.to_sentence })
     end
   end
 
@@ -53,6 +61,6 @@ class QuestionsController < ApplicationController
 
     the_question.destroy
 
-    redirect_to("/questions", { :notice => "Question deleted successfully."} )
+    redirect_to("/prompts/chat/#{the_question.prompt_id}", { :notice => "Question deleted successfully."} )
   end
 end

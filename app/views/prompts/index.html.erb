@@ -1,4 +1,9 @@
 
+
+<div class="col text-center mb-3">
+  <a href="/prompts/new" title="Create new prompt template" class="btn btn-outline-success btn-sm"> <i class="bi bi-plus-lg"></i> Add new prompt template</a>
+</div>
+
 <div class="card">
   <ul class="list-group list-group-flush">
 
@@ -15,7 +20,7 @@
             
             <form action="/insert_question" method="post">
 
-              <div class="row  align-items-center">
+              <div class="row align-items-center">
 
                 <div class="col-auto">
                   Summarize the report titled "
@@ -42,7 +47,7 @@
                 </div>
 
               <div class="col text-end">
-                <a href="https://chat.openai.com/" target="blank" title="Ask ChatGPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> </a>
+                <a href="https://chat.openai.com/" target="blank" title="Ask Chat GPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> </a>
               </div>
 
               </div>
@@ -63,99 +68,3 @@
 
   </ul>
 </div>
-
-
-
-
-<div>
-  <div>
-    <h2>
-      Add a new prompt
-    </h2>
-
-    <form action="/insert_prompt" method="post">
-      <div>
-        <label for="desc_box">
-          Desc
-        </label>
-
-        <textarea id="desc_box" name="query_desc" rows="3"></textarea>
-      </div>
-
-      <div>
-        <label for="user_id_box">
-          User
-        </label>
-
-        <input type="text" id="user_id_box" name="query_user_id">
-      </div>
-
-      <button>
-        Create prompt
-      </button>
-    </form>
-  </div>
-</div>
-
-<hr>
-<div>
-  <div>
-    <table border="1">
-      <tr>
-        <th>
-          ID
-        </th>
-
-        <th>
-          Desc
-        </th>
-
-        <th>
-          User
-        </th>
-
-        <th>
-          Created at
-        </th>
-
-        <th>
-          Updated at
-        </th>
-
-        <th>
-        </th>
-      </tr>
-
-      <% @list_of_prompts.each do |a_prompt| %>
-      <tr>
-        <td>
-          <%= a_prompt.id %>
-        </td>
-
-        <td>
-          <%= a_prompt.desc %>
-        </td>
-
-        <td>
-          <%= a_prompt.user_id %>
-        </td>
-
-        <td>
-          <%= time_ago_in_words(a_prompt.created_at) %> ago
-        </td>
-        <td>
-          <%= time_ago_in_words(a_prompt.updated_at) %> ago
-        </td>
-
-        <td>
-          <a href="/prompts/<%= a_prompt.id %>">
-            Show details
-          </a>
-        </td>
-      </tr>
-      <% end %>
-    </table>
-  </div>
-</div>
-
-<hr>

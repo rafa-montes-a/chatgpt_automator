@@ -4,6 +4,7 @@
 #
 #  id         :integer          not null, primary key
 #  answer     :text
+#  feed       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  prompt_id  :integer

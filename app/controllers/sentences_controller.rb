@@ -19,16 +19,15 @@ class SentencesController < ApplicationController
 
   def create
     the_sentence = Sentence.new
-    the_sentence.title = params.fetch("query_title")
     the_sentence.content = params.fetch("query_content")
     the_sentence.kind = params.fetch("query_kind")
     the_sentence.prompt_id = params.fetch("query_prompt_id")
 
     if the_sentence.valid?
       the_sentence.save
-      redirect_to("/sentences", { :notice => "Sentence created successfully." })
+      redirect_to("/prompts/#{the_sentence.prompt_id}", { :notice => "Sentence created successfully." })
     else
-      redirect_to("/sentences", { :alert => the_sentence.errors.full_messages.to_sentence })
+      redirect_to("/prompts/#{the_sentence.prompt_id}", { :alert => the_sentence.errors.full_messages.to_sentence })
     end
   end
 
@@ -36,25 +35,25 @@ class SentencesController < ApplicationController
     the_id = params.fetch("path_id")
     the_sentence = Sentence.where({ :id => the_id }).at(0)
 
-    the_sentence.title = params.fetch("query_title")
     the_sentence.content = params.fetch("query_content")
     the_sentence.kind = params.fetch("query_kind")
     the_sentence.prompt_id = params.fetch("query_prompt_id")
 
     if the_sentence.valid?
       the_sentence.save
-      redirect_to("/sentences/#{the_sentence.id}", { :notice => "Sentence updated successfully."} )
+      redirect_to("/prompts/#{the_sentence.prompt_id}", { :notice => "Sentence updated successfully."} )
     else
-      redirect_to("/sentences/#{the_sentence.id}", { :alert => the_sentence.errors.full_messages.to_sentence })
+      redirect_to("/prompts/#{the_sentence.prompt_id}", { :alert => the_sentence.errors.full_messages.to_sentence })
     end
   end
 
   def destroy
-    the_id = params.fetch("path_id")
+    the_id = params.fetch("sentence_id")
     the_sentence = Sentence.where({ :id => the_id }).at(0)
 
     the_sentence.destroy
 
-    redirect_to("/sentences", { :notice => "Sentence deleted successfully."} )
+    redirect_to("/prompts/#{the_sentence.prompt.id}", { :notice => "Sentence deleted successfully."} )
   end
 end
+

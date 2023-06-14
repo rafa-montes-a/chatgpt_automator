@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   post("/modify_sentence/:path_id", { :controller => "sentences", :action => "update" })
   
   # DELETE
-  get("/delete_sentence/:path_id", { :controller => "sentences", :action => "destroy" })
+  get("/delete_sentence/:sentence_id/:prompt_id", { :controller => "sentences", :action => "destroy" })
 
   #------------------------------
 
@@ -67,8 +67,9 @@ Rails.application.routes.draw do
           
   # READ
   get("/prompts", { :controller => "prompts", :action => "index" })
-  
+  get("/prompts/new", { :controller => "prompts", :action => "new" })
   get("/prompts/:path_id", { :controller => "prompts", :action => "show" })
+  get("/prompts/chat/:path_id", { :controller => "prompts", :action => "chat" })
   
   # UPDATE
   
