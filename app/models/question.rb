@@ -10,4 +10,8 @@
 #  user_id    :integer
 #
 class Question < ApplicationRecord
+
+  belongs_to(:user, { :required => true, :class_name => "User", :foreign_key => "user_id" })
+  belongs_to(:prompt, { :required => true, :class_name => "Prompt", :foreign_key => "prompt_id" })
+  
 end

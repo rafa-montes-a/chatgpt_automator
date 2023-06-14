@@ -11,4 +11,7 @@
 #  prompt_id  :integer
 #
 class Sentence < ApplicationRecord
+
+  belongs_to(:prompt, { :required => true, :class_name => "Prompt", :foreign_key => "prompt_id" })
+  
 end

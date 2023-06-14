@@ -66,45 +66,45 @@
   <body>
 
     <nav class="navbar navbar-expand-lg bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/"> <i class="bi bi-rocket-fill"></i> Chat GPT Automator </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"> <i class="bi bi-rocket-fill"></i> Chat GPT Automator </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
 
-      <div class="navbar-nav">        
-        <% if @current_user == nil %>
-            <div>Welcome!</div>
-        <% else %>
-          <a class="nav-link" href="/prompts"> <i class="bi bi-list-check"></i> Prompts </a>
-          <a class="nav-link" href="/prompts"> <i class="bi bi-person-fill-check"></i> My prompts</a>
-          <a class="nav-link" href="/sentences"> <i class="bi bi-balloon"></i> Sentences </a>
-          <a class="nav-link" href="/questions"> <i class="bi bi-balloon"></i> Questions </a>
-          <a class="nav-link" href="/sentences"> <i class="bi bi-balloon"></i> Likes </a>
+          <div class="navbar-nav">        
+            <% if @current_user == nil %>
+                <div>Welcome!</div>
+            <% else %>
+              <a class="nav-link" href="/prompts"> <i class="bi bi-list-check"></i> Prompts </a>
+              <a class="nav-link" href="/prompts"> <i class="bi bi-person-fill-check"></i> My prompts</a>
+              <a class="nav-link" href="/sentences"> <i class="bi bi-balloon"></i> Sentences </a>
+              <a class="nav-link" href="/questions"> <i class="bi bi-balloon"></i> Questions </a>
+              <a class="nav-link" href="/sentences"> <i class="bi bi-balloon"></i> Likes </a>
 
-          <% if @current_user.email == "rafa@automator.com" %>
-            <a class="nav-link" href="/admin"> <i class="bi bi-wrench-adjustable-circle-fill"></i> Admin settings</a>
-          <% else %>
-          <% end %>
-        <% end %>
+              <% if @current_user.email == "rafa@automator.com" %>
+                <a class="nav-link" href="/admin"> <i class="bi bi-wrench-adjustable-circle-fill"></i> Admin settings</a>
+              <% else %>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="navbar-nav right">
+            <% if @current_user == nil %>        
+              <a class="nav-link" href="/user_sign_in"> <i class="bi bi-fingerprint"></i> Log in</a>
+              <a class="nav-link" href="/user_sign_up">Create account</a>
+
+            <% else %>
+              <a class="nav-link" href="/edit_user_profile"> <i class="bi bi-emoji-sunglasses-fill"></i> Hi, <%= @current_user.first_name %> </a>
+              <a class="nav-link" href="/user_sign_out">Log out</a>
+            <% end %>
+
+          </div>
+        </div>
       </div>
-
-      <div class="navbar-nav right">
-        <% if @current_user == nil %>        
-          <a class="nav-link" href="/user_sign_in"> <i class="bi bi-fingerprint"></i> Log in</a>
-          <a class="nav-link" href="/user_sign_up">Create account</a>
-
-        <% else %>
-          <a class="nav-link" href="/edit_user_profile"> <i class="bi bi-emoji-sunglasses-fill"></i> Hi, <%= @current_user.first_name %> </a>
-          <a class="nav-link" href="/user_sign_out">Log out</a>
-        <% end %>
-
-      </div>
-    </div>
-  </div>
-</nav>
+    </nav>
 
   <div class = "container py-5">
 
