@@ -11,21 +11,44 @@
 
       </div>
 
-      <div class="card text-bg-light">
-        <div class="row m-1 p-1">
+      <div class="card text-bg-light p-3">
+            
+            <form action="/insert_question" method="post">
 
-          <div class="col">
-            <p>
-            Summarize the report titled "BEST’S GUIDE TO UNDERSTANDING THE INSURANCE INDUSTRY An overview for those working with and in one of the world’s most interesting and vital 
-            industries"2023 edition, from Am Best
-            </p>
-          </div>
+              <div class="row  align-items-center">
 
-          <div class="col-md-1 text-end">
-            <a href="#"  title="Ask ChatGPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> </a>
-          </div>
+                <div class="col-auto">
+                  Summarize the report titled "
+                </div>
 
-        </div>
+                <div class="col-auto">
+                  <input id="sentence_1_box" name="query_sentence_1" type="text" class="form-control form-control-sm"> 
+                </div>
+
+                <div class="col-auto">
+                  " written by 
+                </div>
+
+                <div class="col-auto">
+                  <input id="sentence_2_box" name="query_sentence_2" type="text" class="form-control form-control-sm"> 
+                </div>
+
+                <div class="col-auto">
+                  . Act as an expert in
+                </div>
+
+                <div class="col-auto">
+                  <input id="sentence_3_box" name="query_sentence_3" type="text" class="form-control form-control-sm"> 
+                </div>
+
+              <div class="col text-end">
+                <a href="https://chat.openai.com/" target="blank" title="Ask ChatGPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> </a>
+              </div>
+
+              </div>
+
+            </form>
+
       </div>
 
       <div class="col text-end m-2">
