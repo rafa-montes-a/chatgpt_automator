@@ -73,7 +73,7 @@
           <a href="/insert_like/<%= a_prompt.id %>"  title="Like" class="btn btn-outline-primary btn-sm"> <i class="bi bi-heart"></i> <%= a_prompt.likes.count %> </a>
         <% end %>
         
-        <a href="#"  title="Duplicate" class="btn btn-outline-primary btn-sm"> <i class="bi bi-back"></i> Duplicate </a>
+        <a href="/duplicate_prompt/<%= a_prompt.id %>" title="Duplicate" class="btn btn-outline-primary btn-sm"> <i class="bi bi-back"></i> Duplicate </a>
 
         <% if a_prompt.user.id == @current_user.id %>
 

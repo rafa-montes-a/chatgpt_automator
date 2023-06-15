@@ -45,6 +45,39 @@ class PromptsController < ApplicationController
     end
   end
 
+  def duplicate
+    old_prompt_id = params.fetch("old_prompt_id")
+    old_prompt = Prompt.where({ :id => old_prompt_id }).at(0)
+
+    the_prompt = Prompt.new
+    the_prompt.desc = old_prompt.desc + " Copy"
+    the_prompt.user_id = @current_user.id
+
+    if the_prompt.valid?
+      the_prompt.save
+
+      old_prompt.sentences.each do |old_sentence|
+        the_sentence = Sentence.new
+        the_sentence.kind = old_sentence.kind
+
+        if the_sentence.kind == "Fixed"
+          the_sentence.title = old_sentence.title
+          the_sentence.content = old_sentence.content
+        else
+          the_sentence.title = nil
+          the_sentence.content = nil
+        end
+
+        the_sentence.prompt_id = the_prompt.id
+        the_sentence.save!
+      end
+
+      redirect_to("/prompts/#{the_prompt.id}", { :notice => "Prompt created successfully." })
+    else
+      redirect_to("/prompts", { :alert => the_prompt.errors.full_messages.to_sentence })
+    end
+  end
+
   def update
     the_id = params.fetch("path_id")
     the_prompt = Prompt.where({ :id => the_id }).at(0)

@@ -64,6 +64,7 @@ Rails.application.routes.draw do
 
   # CREATE
   post("/insert_prompt", { :controller => "prompts", :action => "create" })
+  get("/duplicate_prompt/:old_prompt_id", { :controller => "prompts", :action => "duplicate" })
           
   # READ
   get("/prompts", { :controller => "prompts", :action => "index" })
