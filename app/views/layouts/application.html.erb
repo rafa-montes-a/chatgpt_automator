@@ -63,9 +63,9 @@
 
   </head>
 
-  <body>
+  <body class="bg-light">
 
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="/"> <i class="bi bi-rocket-fill"></i> Prompt Generator </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,7 +78,7 @@
             <% if @current_user == nil %>
                 <div>Welcome!</div>
             <% else %>
-              <a class="nav-link" href="/prompts"> <i class="bi bi-list-check"></i> All Prompts </a>
+              <a class="nav-link" href="/prompts"> <i class="bi bi-list-check"></i> All templates </a>
               <a class="nav-link" href="/prompts"> <i class="bi bi-person-fill-check"></i> My prompts</a>
               <a class="nav-link" href="/sentences"> <i class="bi bi-balloon"></i> Sentences </a>
               <a class="nav-link" href="/questions"> <i class="bi bi-balloon"></i> Questions </a>
@@ -141,11 +141,75 @@
           // Optionally provide some visual feedback to indicate successful copying
           button.innerHTML = '<i class="bi bi-clipboard-check-fill"></i> Copied';
           setTimeout(() => {
-            button.innerHTML = '<i class="bi bi-clipboard-check"></i> Copy and open ChatGPT';
+            button.innerHTML = '<i class="bi bi-clipboard-check"></i> Copy';
+          }, 2000);
+
+        });
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyButtons = document.querySelectorAll('.copy-button-GPT');
+      copyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const code = button.getAttribute('data-code');
+
+          // Create a temporary textarea element to hold the text
+          const textarea = document.createElement('textarea');
+          textarea.value = code;
+          document.body.appendChild(textarea);
+
+          // Copy the text from the textarea
+          textarea.select();
+          document.execCommand('copy');
+
+          // Clean up by removing the temporary textarea
+          document.body.removeChild(textarea);
+
+          // Optionally provide some visual feedback to indicate successful copying
+          button.innerHTML = '<i class="bi bi-clipboard-check-fill"></i> Copied';
+          setTimeout(() => {
+            button.innerHTML = '<i class="bi bi-clipboard-check"></i> Copy prompt and go to ChatGPT';
           }, 2000);
 
           // Open a new tab with the desired URL
-          const chatGPTUrl = 'https://www.bing.com/search?form=MY02AA&OCID=MY02AA&pl=launch&q=Bing+AI&showconv=1&sydconv=1'; // Replace with the actual URL
+          const chatGPTUrl = 'https://chat.openai.com/'; // Replace with the actual URL
+          window.open(chatGPTUrl, '_blank');
+
+        });
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const copyButtons = document.querySelectorAll('.copy-button-bing');
+      copyButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const code = button.getAttribute('data-code');
+
+          // Create a temporary textarea element to hold the text
+          const textarea = document.createElement('textarea');
+          textarea.value = code;
+          document.body.appendChild(textarea);
+
+          // Copy the text from the textarea
+          textarea.select();
+          document.execCommand('copy');
+
+          // Clean up by removing the temporary textarea
+          document.body.removeChild(textarea);
+
+          // Optionally provide some visual feedback to indicate successful copying
+          button.innerHTML = '<i class="bi bi-clipboard-check-fill"></i> Copied';
+          setTimeout(() => {
+            button.innerHTML = '<i class="bi bi-clipboard-check"></i> Copy prompt and go to ChatGPT 4.0 in Bing';
+          }, 2000);
+
+          // Open a new tab with the desired URL
+          const chatGPTUrl = 'https://www.bing.com/search?form=WSBCTB&toWww=1&redig=E0AC8F99A631419BAE3C1AA602BF2759&q=What+can+the+new+Bing+chat+do%3F&showconv=1&sydconv=1'; // Replace with the actual URL
           window.open(chatGPTUrl, '_blank');
 
         });

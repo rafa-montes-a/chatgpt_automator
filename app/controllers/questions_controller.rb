@@ -43,15 +43,31 @@ class QuestionsController < ApplicationController
     the_id = params.fetch("path_id")
     the_question = Question.where({ :id => the_id }).at(0)
 
-    the_question.user_id = params.fetch("query_user_id")
-    the_question.prompt_id = params.fetch("query_prompt_id")
-    the_question.answer = params.fetch("query_answer")
+    gpt_prompt = "Answer the following in less than 25 seconds: " + the_question.feed.to_s
+
+    message_hash = { :role => "user", :content => gpt_prompt }
+    api_messages_array = Array.new
+    api_messages_array.push(message_hash)
+
+    the_question.answer = "sample"
+
+    client = OpenAI::Client.new(access_token: ENV.fetch("OPENAI_TOKEN"), request_timeout: 200,)
+
+    response = client.chat(
+        parameters: {
+          model: "gpt-3.5-turbo",
+          messages: api_messages_array,
+          temperature: 1.0,
+        },
+      )
+
+      the_question.answer = response.fetch("choices").at(0).fetch("message").fetch("content")
 
     if the_question.valid?
       the_question.save
-      redirect_to("/questions/#{the_question.id}", { :notice => "Question updated successfully."} )
+      redirect_to("/prompts/chat/#{the_question.prompt_id}", { :notice => "Question updated successfully."} )
     else
-      redirect_to("/questions/#{the_question.id}", { :alert => the_question.errors.full_messages.to_sentence })
+      redirect_to("/prompts/chat/#{the_question.prompt_id}", { :alert => the_question.errors.full_messages.to_sentence })
     end
   end
 

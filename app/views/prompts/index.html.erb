@@ -4,6 +4,88 @@
   <a href="/prompts/new" title="Create new prompt template" class="btn btn-outline-success btn-sm"> <i class="bi bi-plus-lg"></i> Add new prompt template</a>
 </div>
 
+
+<% @list_of_prompts.each do |a_prompt| %>
+  <div class="card mb-2">
+    <div class="card-body">
+
+      <div class="col mb-2">
+        
+        <div class="col">
+
+          <h5><%= a_prompt.desc %></h5>
+
+          <p><small>Created by <%= a_prompt.user.first_name %> <%= a_prompt.user.last_name %> at <%= a_prompt.created_at.strftime(("%B %d, %Y")) %> </small></p>
+
+        </div>
+
+        <div class="card text-bg-light p-3">
+              
+          <form action="/insert_question" method="post">
+
+            <div class="row align-items-center">
+
+              <% a_prompt.sentences.each do |a_sentence| %>
+
+                <% if a_sentence.kind == "Fixed" %>
+              
+                  <div class="col-auto m-1">
+                    <label for="sentence<%= a_sentence.id %>_box" class="form-label"> <%= a_sentence.content %> </label>
+                    <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="hidden" class="form-control form-control-sm" value="<%= a_sentence.content %>">
+                  </div>
+                
+                <% else %>
+
+                  <div class="col-auto m-1">
+                    <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="text" class="form-control form-control-sm">
+                  </div>
+                <% end %>
+
+              <% end %>
+
+              <input id="prompt_id_box" name="query_prompt_id" type="hidden" value="<%= a_prompt.id %>">
+
+              <div class="col text-end">
+                <button title="Ask Chat GPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> Ask ChatGPT </button>
+              </div>
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <div class="col m-2 text-end">
+        <a href="#"  title="Duplicate" class="btn btn-outline-primary btn-sm"> <i class="bi bi-share"></i> </a>
+        <a href="#"  title="Like" class="btn btn-primary btn-sm"> <i class="bi bi-heart"></i> 3 </a>
+        <a href="#"  title="Delete" class="btn btn-outline-danger btn-sm"> <i class="bi bi-x-circle"></i> </a>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="card">
   <ul class="list-group list-group-flush">
 
