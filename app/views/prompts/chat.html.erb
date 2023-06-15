@@ -1,54 +1,79 @@
-    <div>
+<div class="card mb-3">
+
+  <div class="card-body">
+
+    <div class="col">
       
       <div class="col">
-
         <h5><%= @the_prompt.desc %></h5> 
         <p><small>Template created by <%= @the_prompt.user.first_name %> <%= @the_prompt.user.last_name %> at <%= @the_prompt.created_at.strftime(("%B %d, %Y")) %> </small></p>
-
       </div>
 
-      <div class="card text-bg-light p-3">
+      <hr>
+
+      <div>
             
         <form action="/insert_question" method="post">
-
+        
           <div class="row align-items-center">
 
-            <% @the_prompt.sentences.each do |a_sentence| %>
-
-              <% if a_sentence.kind == "Fixed" %>
-            
-                <div class="col-auto m-1">
-                  <label for="sentence<%= a_sentence.id %>_box" class="form-label"> <%= a_sentence.content %> </label>
-                  <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="hidden" class="form-control form-control-sm" value="<%= a_sentence.content %>">
-                </div>
+            <div class="col-md-10">
               
-              <% else %>
+              <div class="row align-items-center">
 
-                <div class="col-auto m-1">
-                  <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="text" class="form-control form-control-sm">
-                </div>
-              <% end %>
+                <% @the_prompt.sentences.each do |a_sentence| %>
 
-            <% end %>
+                  <% if a_sentence.kind == "Fixed" %>
+                
+                    <div class="col-auto m-1">
+                      <label for="sentence<%= a_sentence.id %>_box" class="form-label"> <%= a_sentence.content %> </label>
+                      <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="hidden" class="form-control form-control-sm" value="<%= a_sentence.content %>">
+                    </div>
+                  
+                  <% else %>
 
-            <input id="prompt_id_box" name="query_prompt_id" type="hidden" value="<%= @the_prompt.id %>">
+                    <div class="col-auto m-1">
+                      <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="text" class="form-control form-control-sm">
+                    </div>
+                  <% end %>
 
-            <div class="col text-end">
-              <button title="Ask Chat GPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> Ask ChatGPT </button>
+                <% end %>
+
+                <input id="prompt_id_box" name="query_prompt_id" type="hidden" value="<%= @the_prompt.id %>">
+
+              </div>
+
             </div>
+
+              <div class="col text-end">
+                <button title="Ask Chat GPT" class="btn btn-success btn-sm"> <i class="bi bi-send-fill"></i> Ask ChatGPT </button>
+              </div>
 
           </div>
 
         </form>
 
       </div>
+      
+    </div>
 
-      <br>
+    <hr>
+    
+  </div>
+
+</div>
+
+<% if @the_prompt.questions.count == 0 %>
+You don't have questions in this template yet.
+<% else %>
+<% end %>
+
+
 
       <% @the_prompt.questions.where({ :user_id => @current_user.id }).order({ :created_at => :desc }).each do |a_question| %>
 
         <div class="card mb-4" style="width: 90%;">
-          <div class="card-header">
+          <div class="card-body bg-dark-subtle">
 
             <div class="row">
               <div class="col-md-9">
@@ -69,22 +94,11 @@
             <li class="list-group-item">
 
               <div class="row align-items-center">
-                
-                <% if a_question.answer == nil %>
 
-                  <div class="col-auto m-1">
-                    <a href="/modify_question/<%= a_question.id %>" title="Generate Chat ChatGPT answer" class="btn btn-outline-success btn-sm"> <i class="bi bi-arrow-repeat"></i> Generate short ChatGPT answer </a>
-                  </div>
-
-                <% else %>
-
-                  <p> <i class="bi bi-chat-right-text-fill" style="color: green;"></i> <strong> Short answer: </strong> <%= a_question.answer %> </p>
-
-                  <div class="col-auto m-1">
-                    <a href="/modify_question/<%= a_question.id %>" title="Regenerate Chat ChatGPT answer" class="btn btn-outline-success btn-sm"> <i class="bi bi-arrow-repeat"></i> Regenerate short ChatGPT answer </a>
-                  </div>
-
-                <% end %>
+                <p> 
+                  <i class="bi bi-chat-right-text-fill" style="color: green;"></i> <strong> Short answer: </strong> <%= a_question.answer %>
+                  <a href="/modify_question/<%= a_question.id %>" title="Regenerate Chat ChatGPT answer" class="btn btn-outline-success btn-sm"> <i class="bi bi-arrow-repeat"></i> </a> Regenerate
+                </p>
 
                 <div class="col-auto m-1">
                   <button class="btn btn-outline-success btn-sm copy-button-GPT" data-code="<%= a_question.feed %>"> <i class="bi bi-clipboard-check"></i> Copy prompt and go to ChatGPT </button>
@@ -104,5 +118,7 @@
       <% end %>
 
     </div>
+
+
 
   

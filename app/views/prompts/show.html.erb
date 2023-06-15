@@ -1,33 +1,34 @@
-<div class="card">
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">
 
-      <form action="/modify_prompt/<%= @the_prompt.id %>" method="post">
+<h6> Build your template: </h6>
+
+<div class="card">
+  <div class="card-body">
+
+    <form action="/modify_prompt/<%= @the_prompt.id %>" method="post">
+
+      <div class="col-auto">
+          <label for="desc_box" class="form-label"> <h5>Step 1: Define a name to describe your prompt:</h5></label>
+      </div>
+
+      <div class="row align-items-center mb-3">
+
+        <div class="col-md-3">
+          <input id="desc_box" name="query_desc" type="text" class="form-control form-control-sm" value="<%= @the_prompt.desc %>"> 
+        </div>
 
         <div class="col-auto">
-            <label for="desc_box" class="form-label"> <strong>Step 1: Define a name to describe your prompt:</strong></label>
+          <button title="Save" class="btn btn-outline-primary btn-sm"> <i class="bi bi-check-lg"></i> Save changes </button>
         </div>
 
-        <div class="row align-items-center mb-3">
+      </div>
+    </form>
 
-          <div class="col-md-3">
-            <input id="desc_box" name="query_desc" type="text" class="form-control form-control-sm" value="<%= @the_prompt.desc %>"> 
-          </div>
+    <hr>
 
-          <div class="col-auto">
-            <button title="Save" class="btn btn-outline-primary btn-sm"> <i class="bi bi-check-lg"></i> Save changes </button>
-          </div>
+    <h5>Step 2: Write the sentences of your prompt</h5>
+    <small> <strong> Fixed </strong> sentences will show automatically in the prompt, while <strong> Input </strong> sentences will be pasted by the user.</small>
 
-        </div>
-      </form>
-
-
-        <div class="card text-bg-light p-3">
-
-          <strong>Step 2: Write the sentences of your prompt</strong>
-          <small> <strong> Fixed </strong> sentences will show automatically in the prompt, while <strong> Input </strong> sentences will be pasted by the user.</small>
-
-        <br>
+    <br><br>
 
         <% @the_prompt.sentences.each do |a_sentence| %>
 
@@ -63,7 +64,8 @@
 
         <% end %>
 
-        <hr>
+        <br>
+
 
         <form action="/insert_sentence/" method="post">
 
@@ -91,56 +93,63 @@
 
           </form>
 
-      </div>
+     
 
-    </li>
-  </ul>
+  </div>
 </div>
 
 <br>
 
-<h6> Preview of your template: </h6>
+<h6> Preview: </h6>
 
 <div class="card">
-  <ul class="list-group list-group-flush">
+  <div class="card-body">
 
-    <li class="list-group-item">
+    <div class="col">
       
       <div class="col">
-
         <h5><%= @the_prompt.desc %></h5> 
         <p><small>Created by <%= @the_prompt.user.first_name %> <%= @the_prompt.user.last_name %> at <%= @the_prompt.created_at.strftime(("%B %d, %Y")) %> </small></p>
-
       </div>
 
-      <div class="card text-bg-light p-3">
+      <hr>
+
+      <div >
             
         <form action="/insert_question" method="post">
 
           <div class="row align-items-center">
 
-            <% @the_prompt.sentences.each do |a_sentence| %>
+            <div class="col-md-10">
 
-              <% if a_sentence.kind == "Fixed" %>
-            
-                <div class="col-auto m-1">
-                  <label for="sentence<%= a_sentence.id %>_box" class="form-label"> <%= a_sentence.content %> </label>
-                  <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="hidden" class="form-control form-control-sm" value="<%= a_sentence.content %>">
-                </div>
-              
-              <% else %>
+              <div class="row align-items-center">
 
-                <div class="col-auto m-1">
-                  <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="text" class="form-control form-control-sm" value="<%= a_sentence.content %>">
-                </div>
-              <% end %>
+                <% @the_prompt.sentences.each do |a_sentence| %>
 
-            <% end %>
+                  <% if a_sentence.kind == "Fixed" %>
+                
+                    <div class="col-auto m-1">
+                      <label for="sentence<%= a_sentence.id %>_box" class="form-label"> <%= a_sentence.content %> </label>
+                      <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="hidden" class="form-control form-control-sm" value="<%= a_sentence.content %>">
+                    </div>
+                  
+                  <% else %>
 
-            <input id="prompt_id_box" name="query_prompt_id" type="hidden" value="<%= @the_prompt.id %>">
+                    <div class="col-auto m-1">
+                      <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="text" class="form-control form-control-sm" value="<%= a_sentence.content %>">
+                    </div>
+                  <% end %>
+
+                <% end %>
+
+                <input id="prompt_id_box" name="query_prompt_id" type="hidden" value="<%= @the_prompt.id %>">
+
+              </div>
+
+            </div>
 
             <div class="col text-end">
-              <button title="Ask Chat GPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> Ask ChatGPT </button>
+              <button title="Ask Chat GPT" class="btn btn-success btn-sm"> <i class="bi bi-send-fill"></i> Ask ChatGPT </button>
             </div>
 
           </div>
@@ -149,6 +158,9 @@
 
       </div>
 
-    </li>
-  </ul>
+      
+
+    </div>
+
+  </div>
 </div>

@@ -1,152 +1,90 @@
 
-
 <div class="col text-center mb-3">
-  <a href="/prompts/new" title="Create new prompt template" class="btn btn-outline-success btn-sm"> <i class="bi bi-plus-lg"></i> Add new prompt template</a>
+  <a href="/prompts/new" title="Create new prompt template" class="btn btn-outline-success"> <i class="bi bi-plus-lg"></i> Add new prompt template</a>
 </div>
 
 
 <% @list_of_prompts.each do |a_prompt| %>
-  <div class="card mb-2">
+  <div class="card mb-3">
     <div class="card-body">
 
-      <div class="col mb-2">
-        
+      <div class="col">
+
         <div class="col">
-
-          <h5><%= a_prompt.desc %></h5>
-
+          <h5> <a href="/prompts/chat/<%= a_prompt.id %>"> <%= a_prompt.desc %> </a> </h5>
           <p><small>Created by <%= a_prompt.user.first_name %> <%= a_prompt.user.last_name %> at <%= a_prompt.created_at.strftime(("%B %d, %Y")) %> </small></p>
-
         </div>
+        
+        <hr>
 
-        <div class="card text-bg-light p-3">
-              
+        <div>
+
           <form action="/insert_question" method="post">
 
             <div class="row align-items-center">
 
-              <% a_prompt.sentences.each do |a_sentence| %>
+              <div class="col-md-10">
 
-                <% if a_sentence.kind == "Fixed" %>
-              
-                  <div class="col-auto m-1">
-                    <label for="sentence<%= a_sentence.id %>_box" class="form-label"> <%= a_sentence.content %> </label>
-                    <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="hidden" class="form-control form-control-sm" value="<%= a_sentence.content %>">
-                  </div>
-                
-                <% else %>
+                <div class="row align-items-center">
 
-                  <div class="col-auto m-1">
-                    <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="text" class="form-control form-control-sm">
-                  </div>
-                <% end %>
+                  <% a_prompt.sentences.each do |a_sentence| %>
 
-              <% end %>
+                    <% if a_sentence.kind == "Fixed" %>
+                  
+                      <div class="col-auto">
+                        <label for="sentence<%= a_sentence.id %>_box" class="form-label"> <%= a_sentence.content %> </label>
+                        <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="hidden" class="form-control form-control-sm" value="<%= a_sentence.content %>">
+                      </div>
+                    
+                    <% else %>
 
-              <input id="prompt_id_box" name="query_prompt_id" type="hidden" value="<%= a_prompt.id %>">
+                      <div class="col-auto">
+                        <input id="sentence<%= a_sentence.id %>_box" name="query_sentence<%= a_sentence.id %>" type="text" class="form-control form-control-sm">
+                      </div>
+                    <% end %>
 
-              <div class="col text-end">
-                <button title="Ask Chat GPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> Ask ChatGPT </button>
+                  <% end %>
+
+                  <input id="prompt_id_box" name="query_prompt_id" type="hidden" value="<%= a_prompt.id %>">
+
+                </div>
+
               </div>
 
+              <div class="col text-end">
+                <button title="Ask Chat GPT" class="btn btn-success btn-sm"> <i class="bi bi-send-fill"></i> Ask ChatGPT </button>
+              </div>
+            
             </div>
 
           </form>
 
         </div>
 
+        <hr>
+
       </div>
 
       <div class="col m-2 text-end">
-        <a href="#"  title="Duplicate" class="btn btn-outline-primary btn-sm"> <i class="bi bi-share"></i> </a>
-        <a href="#"  title="Like" class="btn btn-primary btn-sm"> <i class="bi bi-heart"></i> 3 </a>
-        <a href="#"  title="Delete" class="btn btn-outline-danger btn-sm"> <i class="bi bi-x-circle"></i> </a>
+
+        <% if a_prompt.likes.where({ :user_id => @current_user.id }).count >= 1 %>
+          <a href="/delete_like/<%= a_prompt.likes.where({ :user_id => @current_user.id }).at(0).id %>/<%= a_prompt.id %>"  title="Dislike" class="btn btn-outline-primary btn-sm"> <i class="bi bi-heart-fill"></i> <%= a_prompt.likes.count %> </a>
+        <% else %>
+          <a href="/insert_like/<%= a_prompt.id %>"  title="Like" class="btn btn-outline-primary btn-sm"> <i class="bi bi-heart"></i> <%= a_prompt.likes.count %> </a>
+        <% end %>
+        
+        <a href="#"  title="Duplicate" class="btn btn-outline-primary btn-sm"> <i class="bi bi-back"></i> Duplicate </a>
+
+        <% if a_prompt.user.id == @current_user.id %>
+
+          <a href="/prompts/<%= a_prompt.id %>"  title="Edit" class="btn btn-outline-primary btn-sm"> <i class="bi bi-pencil"></i> Edit </a>
+          <a href="/delete_prompt/<%= a_prompt.id %>"  title="Delete" class="btn btn-outline-danger btn-sm cancel-button" onclick="confirmDelete(event, <%= a_prompt.id %>)"> <i class="bi bi-x-circle"></i> </a>
+        <% else %>
+        <% end%>
+        
       </div>
 
     </div>
   </div>
 <% end %>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="card">
-  <ul class="list-group list-group-flush">
-
-    <li class="list-group-item">
-      
-      <div class="col">
-
-        <h5>Summary</h5> 
-        <p><small>Created by Rafael Montes at June 13, 2023</small></p>
-
-      </div>
-
-      <div class="card text-bg-light p-3">
-            
-            <form action="/insert_question" method="post">
-
-              <div class="row align-items-center">
-
-                <div class="col-auto">
-                  Summarize the report titled "
-                </div>
-
-                <div class="col-auto">
-                  <input id="sentence_1_box" name="query_sentence_1" type="text" class="form-control form-control-sm"> 
-                </div>
-
-                <div class="col-auto">
-                  " written by 
-                </div>
-
-                <div class="col-auto">
-                  <input id="sentence_2_box" name="query_sentence_2" type="text" class="form-control form-control-sm"> 
-                </div>
-
-                <div class="col-auto">
-                  . Act as an expert in
-                </div>
-
-                <div class="col-auto">
-                  <input id="sentence_3_box" name="query_sentence_3" type="text" class="form-control form-control-sm"> 
-                </div>
-
-              <div class="col text-end">
-                <a href="https://chat.openai.com/" target="blank" title="Ask Chat GPT" class="btn btn-outline-success btn-sm"> <i class="bi bi-send-fill"></i> </a>
-              </div>
-
-              </div>
-
-            </form>
-
-      </div>
-
-      <div class="col text-end m-2">
-        <a href="#"  title="Duplicate" class="btn btn-outline-primary btn-sm"> <i class="bi bi-share"></i> </a>
-        <a href="#"  title="Like" class="btn btn-primary btn-sm"> <i class="bi bi-heart"></i> 3 </a>
-        <a href="#"  title="Delete" class="btn btn-outline-danger btn-sm"> <i class="bi bi-x-circle"></i> </a>
-     
-      </div>
-
-
-    </li>
-
-  </ul>
-</div>

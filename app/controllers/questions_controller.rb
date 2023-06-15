@@ -31,6 +31,26 @@ class QuestionsController < ApplicationController
 
     end
 
+    gpt_prompt = "Answer the following in less than 25 seconds: " + the_question.feed.to_s
+
+    message_hash = { :role => "user", :content => gpt_prompt }
+    api_messages_array = Array.new
+    api_messages_array.push(message_hash)
+
+    the_question.answer = "sample"
+
+    client = OpenAI::Client.new(access_token: ENV.fetch("OPENAI_TOKEN"), request_timeout: 200,)
+
+    response = client.chat(
+        parameters: {
+          model: "gpt-3.5-turbo",
+          messages: api_messages_array,
+          temperature: 1.0,
+        },
+      )
+
+      the_question.answer = response.fetch("choices").at(0).fetch("message").fetch("content")
+
     if the_question.valid?
       the_question.save
       redirect_to("/prompts/chat/#{the_prompt.id}", { :notice => "Question created successfully." })
