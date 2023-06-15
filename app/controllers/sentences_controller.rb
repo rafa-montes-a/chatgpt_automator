@@ -1,4 +1,4 @@
-class SentencesController < ApplicationController
+class SentencesController < ForceController
   def index
     matching_sentences = Sentence.all
 
@@ -56,4 +56,3 @@ class SentencesController < ApplicationController
     redirect_to("/prompts/#{the_sentence.prompt.id}", { :notice => "Sentence deleted successfully."} )
   end
 end
-

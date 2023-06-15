@@ -1,4 +1,4 @@
-class LikesController < ApplicationController
+class LikesController < ForceController
   def index
     matching_likes = Like.all
 
@@ -24,9 +24,9 @@ class LikesController < ApplicationController
 
     if the_like.valid?
       the_like.save
-      redirect_to("#", { :notice => "Like created successfully." })
+      redirect_to(request.referrer, { :notice => "Like created successfully." })
     else
-      redirect_to("#", { :alert => the_like.errors.full_messages.to_sentence })
+      redirect_to(request.referrer, { :alert => the_like.errors.full_messages.to_sentence })
     end
   end
 
@@ -51,6 +51,6 @@ class LikesController < ApplicationController
 
     the_like.destroy
 
-    redirect_to("#", { :notice => "Like deleted successfully."} )
+    redirect_to(request.referrer, { :notice => "Like deleted successfully."} )
   end
 end

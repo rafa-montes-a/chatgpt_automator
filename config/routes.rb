@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   # Home
-  get("/", { :controller => "prompts", :action => "index" })
+  get("/", { :controller => "home", :action => "index" })
 
   # Routes for the Like resource:
 
@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   get("/duplicate_prompt/:old_prompt_id", { :controller => "prompts", :action => "duplicate" })
           
   # READ
-  get("/prompts", { :controller => "prompts", :action => "index" })
+  get("/prompts", { :controller => "home", :action => "index" })
   get("/prompts/new", { :controller => "prompts", :action => "new" })
   get("/prompts/:path_id", { :controller => "prompts", :action => "show" })
   get("/prompts/chat/:path_id", { :controller => "prompts", :action => "chat" })
@@ -100,6 +100,8 @@ Rails.application.routes.draw do
 
   # SIGN IN FORM
   get("/user_sign_in", { :controller => "user_authentication", :action => "sign_in_form" })
+  get("/admin", { :controller => "user_authentication", :action => "index" })
+  
   # AUTHENTICATE AND STORE COOKIE
   post("/user_verify_credentials", { :controller => "user_authentication", :action => "create_cookie" })
   

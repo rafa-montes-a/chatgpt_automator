@@ -1,4 +1,4 @@
-class QuestionsController < ApplicationController
+class QuestionsController < ForceController
   def index
     matching_questions = Question.all
 

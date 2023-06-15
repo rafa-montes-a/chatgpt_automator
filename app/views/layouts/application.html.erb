@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title> Prompt Generator </title>
+    <title> Turbo Prompts </title>
     <%= csrf_meta_tags %>
+    <%= favicon_link_tag asset_path('speedometer.svg') %>
 
     <!-- Expand the number of characters we can use in the document beyond basic ASCII 🎉 -->
     <meta charset="utf-8">
@@ -69,7 +70,7 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand" href="/"> <i class="bi bi-rocket-fill"></i> Prompt Generator </a>
+        <a class="navbar-brand" href="/"> <i class="bi bi-speedometer"></i> Turbo Prompts </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -80,23 +81,26 @@
             <% if @current_user == nil %>
                 <div>Welcome!</div>
             <% else %>
-              <a class="nav-link" href="/prompts"> <i class="bi bi-list-check"></i> All templates </a>
+              <a class="nav-link" href="/prompts"> <i class="bi bi-house-fill"></i> Home </a>
 
-              <% if @current_user.email == "rafa@automator.com" %>
-                <a class="nav-link" href="/admin"> <i class="bi bi-wrench-adjustable-circle-fill"></i> Admin settings</a>
-              <% else %>
-              <% end %>
             <% end %>
           </div>
 
           <div class="navbar-nav right">
             <% if @current_user == nil %>        
               <a class="nav-link" href="/user_sign_in"> <i class="bi bi-fingerprint"></i> Log in</a>
-              <a class="nav-link" href="/user_sign_up">Create account</a>
+              <a class="nav-link" href="/user_sign_up"> <i class="bi bi-plus-lg"></i> Create account</a>
 
             <% else %>
               <a class="nav-link" href="/edit_user_profile"> <i class="bi bi-emoji-sunglasses-fill"></i> Hi, <%= @current_user.first_name %> </a>
-              <a class="nav-link" href="/user_sign_out">Log out</a>
+
+              <% if @current_user.email == @admin_email %>
+                <a class="nav-link" href="/admin"> <i class="bi bi-wrench-adjustable-circle-fill"></i> Admin settings</a>
+              <% else %>
+              <% end %>
+
+              <a class="nav-link" href="/user_sign_out"> <i class="bi bi-power"></i> Log out</a>
+
             <% end %>
 
           </div>
@@ -104,7 +108,11 @@
       </div>
     </nav>
 
-  <div class = "container py-5">
+  <div class = "container py-3">
+
+    <div class="mb-3">
+      <a id="backButton" href="javascript:history.go(-1)" title="Back" class="btn btn-outline-primary btn-sm"> <i class="bi bi-arrow-left"></i> Back </a>
+    </div>
 
     <%= yield %>
 
@@ -213,6 +221,38 @@
         });
       });
     });
+  </script>
+
+
+  <script>
+    // BACK BUTTON RULES
+    function goBack() {
+      window.history.back();
+    }
+
+    window.onload = function() {
+      var backButton = document.getElementById("backButton");
+
+      // Hide the back button initially if there is no history
+      if (window.history.length <= 1) {
+        backButton.style.display = "none";
+      }
+
+      // Check if the current URL is the homepage
+      if (window.location.href === @homepage_link || window.location.href === @sign_in_link || window.location.href === "@sign_up_link")   {
+        backButton.style.display = "none";
+      }
+      
+      // Monitor the history changes
+      window.onpopstate = function() {
+        // Show or hide the back button based on the history length
+        if (window.history.length <= 1) {
+          backButton.style.display = "none";
+        } else {
+          backButton.style.display = "block";
+        }
+      };
+    };
   </script>
 
   </body>
